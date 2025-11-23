@@ -61,3 +61,6 @@ See `client/README.md` and `server/README.md`.
 
 
 *For privacy, use local mode (browser only). For multi-device sync, run the server and register/login.*
+
+
+**Local CLI logger:** See `USAGE.md` for a tiny local CLI that appends timestamped urge entries to `data/urges.jsonl`.
