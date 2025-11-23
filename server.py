@@ -32,6 +32,25 @@ def api_urges():
     return jsonify(read_jsonl(LOG_PATH))
 
 
+@APP.route("/download/csv")
+def download_csv():
+  # Generate CSV in-memory from current JSONL logs and stream as attachment
+  import io
+  import csv
+
+  rows = read_jsonl(LOG_PATH)
+  fieldnames = ["timestamp", "urge", "intensity", "note"]
+  buf = io.StringIO()
+  writer = csv.DictWriter(buf, fieldnames=fieldnames)
+  writer.writeheader()
+  for r in rows:
+    writer.writerow({k: r.get(k, "") for k in fieldnames})
+  csv_data = buf.getvalue()
+  return APP.response_class(csv_data, mimetype='text/csv', headers={
+    'Content-Disposition': 'attachment; filename="urges.csv"'
+  })
+
+
 @APP.route("/")
 def index():
     html = """

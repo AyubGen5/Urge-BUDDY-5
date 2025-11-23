@@ -87,6 +87,11 @@ def main(argv=None):
                 f.write(l + "\n")
         print(f"Rewrote {args.file} with {len(valid)} valid lines, original saved as {bak}")
 
+    # If there are invalid entries and we're not fixing, return non-zero so CI can fail
+    if invalid and not args.fix:
+        print("Validation failed: invalid entries found")
+        return 2
+
     return 0
 
 
