@@ -41,17 +41,41 @@ def index():
         <meta charset="utf-8" />
         <title>Urge-BUDDY - Logs</title>
         <style>body{font-family: Arial; padding:20px;} table{border-collapse:collapse;} td,th{border:1px solid #ccc;padding:6px;}</style>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       </head>
       <body>
         <h1>Urge Logs</h1>
         <p>Loads `data/urges.jsonl` and shows recent entries.</p>
-        <table id="tbl"><thead><tr><th>Timestamp</th><th>Urge</th><th>Intensity</th><th>Note</th></tr></thead><tbody></tbody></table>
+
+        <div style="margin-bottom:12px">
+          <label>Min intensity: <select id="minIntensity"><option value="0">Any</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+            <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+          </select></label>
+          <label style="margin-left:12px">Search: <input id="q"/></label>
+          <button id="refresh">Refresh</button>
+        </div>
+
+        <canvas id="chart" width="600" height="200" style="max-width:700px"></canvas>
+
+        <table id="tbl" style="margin-top:12px"><thead><tr><th>Timestamp</th><th>Urge</th><th>Intensity</th><th>Note</th></tr></thead><tbody></tbody></table>
         <script>
+          let chart = null;
           async function load(){
             const res = await fetch('/api/urges');
             const data = await res.json();
-            const tbody = document.querySelector('#tbl tbody');
+            renderTable(data);
+            renderChart(data);
+          }
+
+          function renderTable(data){
+            const tbody = document.querySelector('#tbl tbody'); tbody.innerHTML='';
+            const minI = parseInt(document.getElementById('minIntensity').value || '0', 10);
+            const q = document.getElementById('q').value.toLowerCase();
             data.slice().reverse().forEach(row => {
+              const intensity = row.intensity || '';
+              if(minI && (!intensity || intensity < minI)) return;
+              if(q && !(row.urge||'').toLowerCase().includes(q) && !(row.note||'').toLowerCase().includes(q)) return;
               const tr = document.createElement('tr');
               ['timestamp','urge','intensity','note'].forEach(k=>{
                 const td = document.createElement('td');
@@ -61,6 +85,21 @@ def index():
               tbody.appendChild(tr);
             });
           }
+
+          function renderChart(data){
+            const counts = Array(11).fill(0);
+            data.forEach(r => { if(r.intensity) counts[r.intensity]++; });
+            const labels = [...Array(10)].map((_,i)=>String(i+1));
+            const values = labels.map((l,i)=>counts[i+1]);
+            const ctx = document.getElementById('chart').getContext('2d');
+            if(chart) chart.destroy();
+            chart = new Chart(ctx, {type:'bar', data:{labels, datasets:[{label:'Intensity count', data:values, backgroundColor:'rgba(54,162,235,0.6)'}]}});
+          }
+
+          document.getElementById('refresh').addEventListener('click', load);
+          document.getElementById('minIntensity').addEventListener('change', load);
+          document.getElementById('q').addEventListener('input', ()=>{ setTimeout(load,200); });
+
           load();
         </script>
       </body>
