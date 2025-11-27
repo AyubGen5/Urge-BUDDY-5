@@ -9,3 +9,35 @@ Press CTRL+C to quit
  * Debugger PIN: 453-498-987
 127.0.0.1 - - [23/Nov/2025 17:46:35] "GET / HTTP/1.1" 200 -
 127.0.0.1 - - [23/Nov/2025 17:46:35] "GET /api/urges HTTP/1.1" 200 -
+ * Detected change in '/workspaces/Urge-BUDDY-5/validate_logs.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 453-498-987
+ * Detected change in '/workspaces/Urge-BUDDY-5/validate_logs.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 453-498-987
+ * Detected change in '/workspaces/Urge-BUDDY-5/server.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 453-498-987
+ * Detected change in '/workspaces/Urge-BUDDY-5/server.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 453-498-987
+ * Detected change in '/workspaces/Urge-BUDDY-5/validate_logs.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 453-498-987
+ * Detected change in '/workspaces/Urge-BUDDY-5/validate_logs.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 453-498-987
+ * Detected change in '/workspaces/Urge-BUDDY-5/server.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 453-498-987
+ * Detected change in '/workspaces/Urge-BUDDY-5/server.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 453-498-987
